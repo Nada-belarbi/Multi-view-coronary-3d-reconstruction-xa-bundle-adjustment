@@ -1,0 +1,23 @@
+# Dependances Python des scripts de visualisation :
+pandas
+matplotlib
+
+# Prerequis C++ a installer separement :
+# Les bibliotheques sont recherchees par CMakeLists.txt.
+#
+# Outils :
+# - Compilateur C++17 (Apple Clang, Clang ou GCC)
+# - CMake >= 3.16
+# - Make ou Ninja
+#
+# Bibliotheques :
+# - OpenCV (nom du paquet CMake : OpenCV)
+# - Eigen (nom du paquet CMake : Eigen3 ; cible Eigen3::Eigen)
+# - nlohmann/json (nom du paquet CMake : nlohmann_json)
+#
+# macOS avec Homebrew :
+# brew install cmake opencv eigen nlohmann-json
+#
+# Debian / Ubuntu :
+# sudo apt install build-essential cmake libopencv-dev libeigen3-dev nlohmann-json3-dev
+#

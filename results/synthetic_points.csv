@@ -1,0 +1,12 @@
+id,x,y,z,branch
+P0,-40,0,0,main
+P1,-30,2,1,main
+P2,-20,4,2,main
+P3,-10,3,4,main
+B,0,0,5,bifurcation
+L1,10,8,8,left
+L2,20,15,12,left
+L3,30,20,15,left
+R1,8,-8,7,right
+R2,18,-15,10,right
+R3,28,-20,14,right

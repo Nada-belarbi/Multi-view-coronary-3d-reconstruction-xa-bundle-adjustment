@@ -1,63 +1,148 @@
-# Multi-view-coronary-3d-reconstruction-xa-bundle-adjustment
+# Calibrage multi-vue en imagerie XA par bundle adjustment
 
-## Objective
+Projet C++17 pour la modelisation geometrique d'acquisitions angiographiques
+XA et la preparation d'un calibrage multi-vue par bundle adjustment.
 
-Study how coronary arteries can be reconstructed in 3D from multiple X-ray angiography (XA) views and understand the geometric assumptions required for multi-view reconstruction.
+## Etat actuel
 
-## Research questions
+Les modules implementes permettent de :
 
-- How is a 3D coronary artery reconstructed from two or more XA views?
-- What geometric information is required from each acquisition?
-- What are intrinsic and extrinsic projection parameters in an angiographic system?
-- How are projection matrices constructed?
-- How does triangulation work in coronary angiography?
-- Why are non-coplanar and preferably near-orthogonal views useful?
-- What sources of error affect the 3D reconstruction?
-- How accurate are the geometric parameters provided in DICOM metadata?
-- What methods are commonly used to evaluate reconstruction quality?
+- charger les metadonnees JSON, les images et les annotations CSV ;
+- construire une camera a partir des metadonnees et d'un isocentre ;
+- effectuer des transformations geometriques et projeter des points 3D ;
+- generer une bifurcation 3D synthetique et exporter ses points en CSV.
 
-## Literature search keywords
+Les dossiers de reconstruction, synchronisation, optimisation, evaluation et
+experiences sont encore des squelettes. Le bundle adjustment n'est pas encore
+implemente.
 
-- multi-view coronary angiography reconstruction
-- biplane coronary artery reconstruction
-- 3D coronary reconstruction from angiography
-- X-ray angiography projection geometry
-- coronary angiography calibration
-- angiographic system geometry
-- DICOM angiography geometry
-- triangulation coronary angiography
-- reprojection error coronary reconstruction
+L'executable actuel lance uniquement la demonstration des points synthetiques.
+Il n'utilise pas les donnees d'acquisition.
 
-## Expected output
+## Prerequis
 
-Produce a short literature review containing:
+- Un compilateur compatible C++17.
+- CMake 3.16 ou plus recent et un outil de compilation (Make ou Ninja).
+- OpenCV, Eigen et nlohmann/json.
 
-- 4–8 relevant scientific papers
-- explanation of the angiographic acquisition geometry
-- explanation of multi-view reconstruction
-- projection and triangulation principles
-- parameters required from the imaging system
-- typical reconstruction errors and evaluation metrics
-- a comparison table of the selected papers
+Les dependances Python sont declarees dans [requirements.txt](./requirements.txt).
+Les prerequis C++ y sont egalement rappeles en commentaires et doivent etre
+installes separement.
 
-## Paper comparison table
+### macOS avec Homebrew
 
-| Paper | Number of views | Dataset | Geometry model | Reconstruction method | Evaluation metric | Main result | Limitations |
-|---|---|---|---|---|---|---|---|
+```sh
+brew install cmake opencv eigen nlohmann-json
+```
 
-## Deliverable
+### Debian / Ubuntu
 
-Create a Markdown document:
+```sh
+sudo apt update
+sudo apt install build-essential cmake libopencv-dev libeigen3-dev nlohmann-json3-dev
+```
 
-`docs/literature_review/multiview_reconstruction.md`
+## Compilation et execution
 
-Include references and links/DOIs for all selected papers.
+Dans VS Code avec l'extension CMake Tools :
 
-## Acceptance criteria
+1. Ouvrir le dossier du projet et selectionner un compilateur C++17.
+2. Executer **CMake: Configure**, puis **CMake: Build**.
+3. Creer le dossier de sortie et lancer l'executable depuis le dossier de
+   compilation `build` :
 
-- At least 4 relevant peer-reviewed papers reviewed
-- Projection geometry clearly explained
-- Triangulation principle understood
-- Required parameters for 3D reconstruction identified
-- Main sources of reconstruction error identified
-- Comparison table completed
+   ```sh
+   mkdir -p results
+   cd build
+   ./angiography
+   ```
+
+Ces commandes supposent que le terminal se trouve initialement a la racine
+du projet et que CMake Tools utilise `build` comme dossier de compilation.
+Avec un autre dossier de compilation, adapter le chemin de l'executable et le
+dossier de travail.
+
+Le programme affiche les points puis ecrit
+[`results/synthetic_points.csv`](./results/synthetic_points.csv), avec les colonnes :
+
+```text
+id,x,y,z,branch
+```
+
+**Important :** le chemin de sortie du programme est actuellement relatif
+(`../results/synthetic_points.csv`). Le dossier `results` doit exister et le
+programme doit etre lance depuis `build` pour obtenir le chemin indique.
+
+## Visualisation des points synthetiques
+
+Depuis la racine du projet, creer et activer un environnement Python local :
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python scripts/plot_synthetic_points.py
+```
+
+Le script utilise pandas et matplotlib. Il lit `results/synthetic_points.csv`,
+qui doit avoir ete genere par l'executable C++, et sauvegarde les figures
+dans `results/figures/`. Il affiche egalement les graphiques dans des fenetres.
+Lors des prochaines executions, reactiver l'environnement avec
+`source .venv/bin/activate` avant de lancer le script.
+
+## Organisation
+
+```text
+.
+|-- CMakeLists.txt
+|-- main.cpp
+|-- requirements.txt
+|-- src/
+|   |-- data/              # Metadonnees, images et annotations
+|   |-- geometry/          # Camera, projections et transformations
+|   |-- simulation/        # Points synthetiques ; autres fichiers en preparation
+|   |-- reconstruction/    # Squelette
+|   |-- synchronization/   # Squelette
+|   |-- optimization/      # Squelette
+|   |-- evaluation/        # Squelette
+|   `-- experiments/       # Squelette
+|-- source/                # Donnees locales, non versionnees
+|   |-- Frames/             
+|   |-- annotations/         
+|   |-- synchronized/      
+|-- results/               # Resultats generes, a versionner sur GitHub
+`-- build/                 # Compilation, non versionnee
+```
+
+## Donnees d'acquisition
+
+Les donnees sont conservees localement sous `source/`, notamment dans
+`Frames/MI_1`, ..., `Frames/MI_5`, `annotations/` et `synchronized/`.
+Elles ne sont pas fournies par le code et sont exclues de Git pour eviter de
+versionner les acquisitions et les fichiers volumineux.
+
+Le chargeur accepte les metadonnees numeriques JSON sous forme de nombres ou
+de chaines numeriques. Les annotations CSV utilisent le format :
+
+```text
+cameraId,pointId,frameNumber,timeId,u,v
+```
+
+## Resolution des problemes
+
+- **`Eigen/Dense` introuvable :** verifier l'installation d'Eigen et relancer
+  la configuration CMake. La cible utilise `Eigen3::Eigen`, qui fournit les
+  chemins d'inclusion.
+- **OpenCV ou nlohmann/json introuvable :** installer les prerequis puis
+  relancer la configuration. Si les bibliotheques sont installees dans un
+  emplacement personnalise, renseigner `CMAKE_PREFIX_PATH` dans la
+  configuration CMake.
+- **Symboles non definis a l'edition de liens :** lors de l'ajout d'un module,
+  declarer ses fichiers `.cpp` dans la cible appropriee de
+  [CMakeLists.txt](./CMakeLists.txt).
+- **Impossible d'ouvrir le CSV de sortie :** verifier le dossier `results`
+  et le dossier de travail, comme indique dans la section d'execution.
+
+La configuration IntelliSense de [`.vscode/`](./.vscode/) vise actuellement
+macOS ARM64 avec Homebrew ; elle peut necessiter une adaptation sur une autre
+machine. La configuration de compilation reste definie par CMake.

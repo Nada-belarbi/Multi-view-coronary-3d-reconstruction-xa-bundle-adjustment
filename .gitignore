@@ -1,0 +1,44 @@
+# CMake et fichiers de compilation
+/build/
+/build-*/
+/cmake-build-*/
+/CMakeFiles/
+/CMakeCache.txt
+/cmake_install.cmake
+/CTestTestfile.cmake
+/Testing/
+/Makefile
+/build.ninja
+/.ninja_deps
+/.ninja_log
+/compile_commands.json
+/CMakeUserPresets.json
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.dSYM/
+/angiography
+
+# Donnees d'acquisition locales
+/source/
+
+# Fichiers locaux et temporaires
+/.venv/
+__pycache__/
+*.pyc
+.DS_Store
+._*
+*.swp
+*.swo
+*~
+/.idea/
+/.vscode/ipch/
+/.vscode/*.log
+.env
+.env.*
+!.env.example

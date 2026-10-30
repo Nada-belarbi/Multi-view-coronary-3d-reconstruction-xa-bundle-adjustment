@@ -1,0 +1,580 @@
+test dataloader
+
+nady@nadas-MacBook-Pro build % ./angiography
+
+===== METADONNEES DE LA VUE =====
+Code : MI_5
+Taille image : 512 x 512 pixels
+Pixel spacing X : 0.278875 mm/pixel
+Pixel spacing Y : 0.278875 mm/pixel
+Distance source-detecteur : 1087 mm
+Distance source-patient : 791.963 mm
+Angle primaire : 17.8 degres
+Angle secondaire : 33.6 degres
+Cine rate : 15 images/s
+Frame time : 66.6667 ms
+Nombre de frames : 101
+Facteur de grossissement : 1.37254
+Fabricant : Siemens
+Modele : 
+Protocole : Coro 15
+=================================
+Erreur : dossier introuvable : Frames/MI_5/frames
+Nombre de frames chargees : 0
+nady@nadas-MacBook-Pro build % cmake ..     
+cmake --build .
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/nady/Documents/Calibrage_imagerie_XA_multi_vue_par_BA/build
+[ 66%] Built target xa_data
+[ 83%] Building CXX object CMakeFiles/angiography.dir/main.cpp.o
+[100%] Linking CXX executable angiography
+[100%] Built target angiography
+nady@nadas-MacBook-Pro build % ./angiography
+
+===== METADONNEES DE LA VUE =====
+Code : MI_5
+Taille image : 512 x 512 pixels
+Pixel spacing X : 0.278875 mm/pixel
+Pixel spacing Y : 0.278875 mm/pixel
+Distance source-detecteur : 1087 mm
+Distance source-patient : 791.963 mm
+Angle primaire : 17.8 degres
+Angle secondaire : 33.6 degres
+Cine rate : 15 images/s
+Frame time : 66.6667 ms
+Nombre de frames : 101
+Facteur de grossissement : 1.37254
+Fabricant : Siemens
+Modele : 
+Protocole : Coro 15
+=================================
+101 frames chargees depuis ../source/Frames/MI_5/frames
+Nombre de frames chargees : 101
+
+
+
+test modelisaion 
+
+=== TEST MODELISATION XA ===
+
+===== METADONNEES DE LA VUE =====
+Code : MI_5
+Taille image : 512 x 512 pixels
+Pixel spacing X : 0.278875 mm/pixel
+Pixel spacing Y : 0.278875 mm/pixel
+Distance source-detecteur : 1087 mm
+Distance source-patient : 791.963 mm
+Angle primaire : 17.8 degres
+Angle secondaire : 33.6 degres
+Cine rate : 15 images/s
+Frame time : 66.6667 ms
+Nombre de frames : 101
+Facteur de grossissement : 1.37254
+Fabricant : Siemens
+Modele : 
+Protocole : Coro 15
+=================================
+
+========================================
+        MODELISATION DE LA CAMERA
+========================================
+
+Angle primaire RAO/LAO : 17.8 deg
+Angle secondaire CRAN/CAUD : 33.6 deg
+
+Matrice intrinsèque K :
+3897.8      0    256
+     0 3897.8    256
+     0      0      1
+
+R image -> monde :
+ 0.952129         0 -0.305695
+ 0.169169  0.832921    0.5269
+  0.25462 -0.553392  0.793049
+
+R monde -> image = R^T :
+ 0.952129  0.169169   0.25462
+        0  0.832921 -0.553392
+-0.305695    0.5269  0.793049
+
+Isocentre monde :
+0 0 0
+
+Centre de la source X monde :
+ 242.099 -417.286 -628.065
+
+Translation t :
+-2.18858e-14     3.88e-14      791.963
+
+Matrice de projection M = K[R|t] :
+  3632.96   794.275   1195.48    202743
+  -78.258   3381.45  -1953.99    202743
+-0.305695    0.5269  0.793049   791.963
+========================================
+
+Projection de l'isocentre :
+u = 256
+v = 256
+
+Centre theorique de l'image :
+cx = 256
+cy = 256
+
+
+test de toute les vues :
+
+nady@nadas-MacBook-Pro build % ./angiography     
+
+========================================
+   TESTS DE MODELISATION XA MULTI-VUE
+========================================
+
+
+========================================
+          TEST CAMERA MI_1
+========================================
+
+===== METADONNEES DE LA VUE =====
+Code : MI_1
+Taille image : 512 x 512 pixels
+Pixel spacing X : 0.278875 mm/pixel
+Pixel spacing Y : 0.278875 mm/pixel
+Distance source-detecteur : 1122 mm
+Distance source-patient : 791.042 mm
+Angle primaire : -21.5 degres
+Angle secondaire : -19.1 degres
+Cine rate : 15 images/s
+Frame time : 66.6667 ms
+Nombre de frames : 70
+Facteur de grossissement : 1.41838
+Fabricant : Siemens
+Modele : 
+Protocole : Coro 15
+=================================
+
+========================================
+        MODELISATION DE LA CAMERA
+========================================
+
+Angle primaire RAO/LAO : -21.5 deg
+Angle secondaire CRAN/CAUD : -19.1 deg
+
+Matrice intrinsèque K :
+4023.31       0     256
+      0 4023.31     256
+      0       0       1
+
+R image -> monde :
+   0.930418 6.93889e-18    0.366501
+   0.119926    0.944949   -0.304449
+  -0.346325    0.327218    0.879197
+
+R monde -> image = R^T :
+   0.930418    0.119926   -0.346325
+6.93889e-18    0.944949    0.327218
+   0.366501   -0.304449    0.879197
+
+Isocentre monde :
+0 0 0
+
+Centre de la source X monde :
+-289.918  240.832 -695.482
+
+Translation t :
+-3.70569e-15 -1.86882e-15      791.042
+
+Matrice de projection M = K[R|t] :
+  3837.18   404.559   -1168.3    202507
+  93.8243   3723.88   1541.57    202507
+ 0.366501 -0.304449  0.879197   791.042
+========================================
+
+--- TEST R^T R = I ---
+R^T R =
+1 0 0
+0 1 0
+0 0 1
+Erreur ||R^T R - I|| = 0
+[OK] R est orthogonale.
+
+--- TEST det(R) = 1 ---
+det(R) = 1
+[OK] det(R) = 1.
+
+--- TEST PROJECTION ISOCENTRE ---
+Projection obtenue :
+u = 256
+v = 256
+Centre attendu :
+cx = 256
+cy = 256
+Erreur = 2.84217e-14 pixels
+[OK] Isocentre projete au centre.
+
+
+========================================
+          TEST CAMERA MI_2
+========================================
+
+===== METADONNEES DE LA VUE =====
+Code : MI_2
+Taille image : 512 x 512 pixels
+Pixel spacing X : 0.278875 mm/pixel
+Pixel spacing Y : 0.278875 mm/pixel
+Distance source-detecteur : 1111 mm
+Distance source-patient : 793.432 mm
+Angle primaire : -15.7 degres
+Angle secondaire : 35.9 degres
+Cine rate : 15 images/s
+Frame time : 66.6667 ms
+Nombre de frames : 65
+Facteur de grossissement : 1.40025
+Fabricant : Siemens
+Modele : 
+Protocole : Coro 15
+=================================
+
+========================================
+        MODELISATION DE LA CAMERA
+========================================
+
+Angle primaire RAO/LAO : -15.7 deg
+Angle secondaire CRAN/CAUD : 35.9 deg
+
+Matrice intrinsèque K :
+3983.86       0     256
+      0 3983.86     256
+      0       0       1
+
+R image -> monde :
+ 0.962692         0    0.2706
+-0.158673  0.810042  0.564496
+-0.219198 -0.586372   0.77982
+
+R monde -> image = R^T :
+ 0.962692 -0.158673 -0.219198
+        0  0.810042 -0.586372
+   0.2706  0.564496   0.77982
+
+Isocentre monde :
+0 0 0
+
+Centre de la source X monde :
+-214.703 -447.889 -618.735
+
+Translation t :
+-4.47971e-14  2.94642e-14      793.432
+
+Matrice de projection M = K[R|t] :
+ 3904.51 -487.619 -673.619   203119
+ 69.2737  3371.61 -2136.39   203119
+  0.2706 0.564496  0.77982  793.432
+========================================
+
+--- TEST R^T R = I ---
+R^T R =
+           1            0 -2.77556e-17
+           0            1            0
+-2.77556e-17            0            1
+Erreur ||R^T R - I|| = 1.17757e-16
+[OK] R est orthogonale.
+
+--- TEST det(R) = 1 ---
+det(R) = 1
+[OK] det(R) = 1.
+
+--- TEST PROJECTION ISOCENTRE ---
+Projection obtenue :
+u = 256
+v = 256
+Centre attendu :
+cx = 256
+cy = 256
+Erreur = 2.84217e-13 pixels
+[OK] Isocentre projete au centre.
+
+
+========================================
+          TEST CAMERA MI_3
+========================================
+
+===== METADONNEES DE LA VUE =====
+Code : MI_3
+Taille image : 512 x 512 pixels
+Pixel spacing X : 0.278875 mm/pixel
+Pixel spacing Y : 0.278875 mm/pixel
+Distance source-detecteur : 1179 mm
+Distance source-patient : 750 mm
+Angle primaire : -39.3 degres
+Angle secondaire : 37.7 degres
+Cine rate : 15 images/s
+Frame time : 66.6667 ms
+Nombre de frames : 68
+Facteur de grossissement : 1.572
+Fabricant : Siemens
+Modele : 
+Protocole : Coro 15
+=================================
+
+========================================
+        MODELISATION DE LA CAMERA
+========================================
+
+Angle primaire RAO/LAO : -39.3 deg
+Angle secondaire CRAN/CAUD : 37.7 deg
+
+Matrice intrinsèque K :
+4227.7      0    256
+     0 4227.7    256
+     0      0      1
+
+R image -> monde :
+     0.77384 -2.77556e-17     0.633381
+    -0.38733     0.791224     0.473224
+   -0.501146    -0.611527     0.612281
+
+R monde -> image = R^T :
+     0.77384     -0.38733    -0.501146
+-2.77556e-17     0.791224    -0.611527
+    0.633381     0.473224     0.612281
+
+Isocentre monde :
+0 0 0
+
+Centre de la source X monde :
+-475.036 -354.918  -459.21
+
+Translation t :
+5.11507e-14 3.80918e-14         750
+
+Matrice de projection M = K[R|t] :
+ 3433.71 -1516.37 -1961.95   192000
+ 162.146   3466.2 -2428.61   192000
+0.633381 0.473224 0.612281      750
+========================================
+
+--- TEST R^T R = I ---
+R^T R =
+          1 5.55112e-17 1.11022e-16
+5.55112e-17           1 5.55112e-17
+1.11022e-16 5.55112e-17           1
+Erreur ||R^T R - I|| = 2.93737e-16
+[OK] R est orthogonale.
+
+--- TEST det(R) = 1 ---
+det(R) = 1
+[OK] det(R) = 1.
+
+--- TEST PROJECTION ISOCENTRE ---
+Projection obtenue :
+u = 256
+v = 256
+Centre attendu :
+cx = 256
+cy = 256
+Erreur = 3.63975e-13 pixels
+[OK] Isocentre projete au centre.
+
+
+========================================
+          TEST CAMERA MI_4
+========================================
+
+===== METADONNEES DE LA VUE =====
+Code : MI_4
+Taille image : 512 x 512 pixels
+Pixel spacing X : 0.278875 mm/pixel
+Pixel spacing Y : 0.278875 mm/pixel
+Distance source-detecteur : 1200 mm
+Distance source-patient : 750 mm
+Angle primaire : -47.5 degres
+Angle secondaire : 39.8 degres
+Cine rate : 15 images/s
+Frame time : 66.6667 ms
+Nombre de frames : 82
+Facteur de grossissement : 1.6
+Fabricant : Siemens
+Modele : 
+Protocole : Coro 15
+=================================
+
+========================================
+        MODELISATION DE LA CAMERA
+========================================
+
+Angle primaire RAO/LAO : -47.5 deg
+Angle secondaire CRAN/CAUD : 39.8 deg
+
+Matrice intrinsèque K :
+4303    0  256
+   0 4303  256
+   0    0    1
+
+R image -> monde :
+     0.67559 -2.77556e-17     0.737277
+   -0.471938     0.768284     0.432452
+   -0.566438     -0.64011     0.519045
+
+R monde -> image = R^T :
+     0.67559    -0.471938    -0.566438
+-2.77556e-17     0.768284     -0.64011
+    0.737277     0.432452     0.519045
+
+Isocentre monde :
+0 0 0
+
+Centre de la source X monde :
+-552.958 -324.339 -389.284
+
+Translation t :
+-3.95635e-14  1.32838e-14          750
+
+Matrice de projection M = K[R|t] :
+ 3095.81 -1920.04 -2304.51   192000
+ 188.743  3416.63 -2621.52   192000
+0.737277 0.432452 0.519045      750
+========================================
+
+--- TEST R^T R = I ---
+R^T R =
+           1 -5.55112e-17 -1.11022e-16
+-5.55112e-17            1            0
+-1.11022e-16            0            1
+Erreur ||R^T R - I|| = 3.04047e-16
+[OK] R est orthogonale.
+
+--- TEST det(R) = 1 ---
+det(R) = 1
+[OK] det(R) = 1.
+
+--- TEST PROJECTION ISOCENTRE ---
+Projection obtenue :
+u = 256
+v = 256
+Centre attendu :
+cx = 256
+cy = 256
+Erreur = 2.34371e-13 pixels
+[OK] Isocentre projete au centre.
+
+
+========================================
+          TEST CAMERA MI_5
+========================================
+
+===== METADONNEES DE LA VUE =====
+Code : MI_5
+Taille image : 512 x 512 pixels
+Pixel spacing X : 0.278875 mm/pixel
+Pixel spacing Y : 0.278875 mm/pixel
+Distance source-detecteur : 1087 mm
+Distance source-patient : 791.963 mm
+Angle primaire : 17.8 degres
+Angle secondaire : 33.6 degres
+Cine rate : 15 images/s
+Frame time : 66.6667 ms
+Nombre de frames : 101
+Facteur de grossissement : 1.37254
+Fabricant : Siemens
+Modele : 
+Protocole : Coro 15
+=================================
+
+========================================
+        MODELISATION DE LA CAMERA
+========================================
+
+Angle primaire RAO/LAO : 17.8 deg
+Angle secondaire CRAN/CAUD : 33.6 deg
+
+Matrice intrinsèque K :
+3897.8      0    256
+     0 3897.8    256
+     0      0      1
+
+R image -> monde :
+ 0.952129         0 -0.305695
+ 0.169169  0.832921    0.5269
+  0.25462 -0.553392  0.793049
+
+R monde -> image = R^T :
+ 0.952129  0.169169   0.25462
+        0  0.832921 -0.553392
+-0.305695    0.5269  0.793049
+
+Isocentre monde :
+0 0 0
+
+Centre de la source X monde :
+ 242.099 -417.286 -628.065
+
+Translation t :
+-2.18858e-14     3.88e-14      791.963
+
+Matrice de projection M = K[R|t] :
+  3632.96   794.275   1195.48    202743
+  -78.258   3381.45  -1953.99    202743
+-0.305695    0.5269  0.793049   791.963
+========================================
+
+--- TEST R^T R = I ---
+R^T R =
+           1  2.77556e-17 -5.55112e-17
+ 2.77556e-17            1  5.55112e-17
+-5.55112e-17  5.55112e-17            1
+Erreur ||R^T R - I|| = 1.96262e-16
+[OK] R est orthogonale.
+
+--- TEST det(R) = 1 ---
+det(R) = 1
+[OK] det(R) = 1.
+
+--- TEST PROJECTION ISOCENTRE ---
+Projection obtenue :
+u = 256
+v = 256
+Centre attendu :
+cx = 256
+cy = 256
+Erreur = 2.04952e-13 pixels
+[OK] Isocentre projete au centre.
+
+
+========================================
+       FIN DES TESTS MODELISATION
+========================================
+
+
+analyse: 
+
+- Les métadonnées des cinq vues sont correctement chargées et cohérentes : dimensions 512 * 512, pas pixel identique, distances source-détecteur différentes selon les vues, angles RAO/LAO et CRAN/CAUD correctement récupérés.
+- Les matrices intrinsèques K sont cohérentes avec la relation f = DSD/pixel spacing, et le centre principal est placé en (256,256), soit le centre de l’image.
+- Les matrices de rotation sont valides pour les cinq acquisitions : R^TR approx I avec des erreurs de l’ordre de 10^{-16}, et det(R)=1. Cela confirme que la convention de rotation fournie par le professeur est correctement implémentée.
+- La projection de l’isocentre donne systématiquement (u,v) approx(256,256) avec des erreurs numériques négligeables, ce qui valide la cohérence interne du modèle géométrique et des matrices de projection construites.
+- Les positions de source, translations et matrices M=K[R|t] varient correctement d’une vue à l’autre, ce qui est attendu dans une acquisition XA multi-vue.
+- corriger model.
+
+
+
+test generation point synthetic
+
+=== TEST SYNTHETIC POINTS ===
+
+========================================
+       POINTS SYNTHETIQUES 3D
+========================================
+P0 | main | -40   0   0
+P1 | main | -30   2   1
+P2 | main | -20   4   2
+P3 | main | -10   3   4
+B | bifurcation | 0 0 5
+L1 | left | 10  8  8
+L2 | left | 20 15 12
+L3 | left | 30 20 15
+R1 | right |  8 -8  7
+R2 | right |  18 -15  10
+R3 | right |  28 -20  14
+========================================
+
+CSV genere : ../results/synthetic_points.csv

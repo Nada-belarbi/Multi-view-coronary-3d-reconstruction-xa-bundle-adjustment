@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "macOS Homebrew",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/src/data",
+                "${env:HOMEBREW_PREFIX}/opt/eigen/include/eigen3",
+                "${env:HOMEBREW_PREFIX}/opt/opencv/include/opencv5",
+                "${env:HOMEBREW_PREFIX}/opt/nlohmann-json/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang++",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ],
+    "version": 4
+}
