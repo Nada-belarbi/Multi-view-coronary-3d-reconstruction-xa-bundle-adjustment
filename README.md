@@ -110,7 +110,7 @@ Lors des prochaines executions, reactiver l'environnement avec
 |   |-- Frames/             
 |   |-- annotations/         
 |   |-- synchronized/      
-|-- results/               # Resultats generes, a versionner sur GitHub
+|-- results/              
 `-- build/                 # Compilation, non versionnee
 ```
 
